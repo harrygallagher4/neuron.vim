@@ -256,7 +256,7 @@ func! neuron#refresh_cache(add_titles)
 	endif
 
 	let g:_neuron_cache_add_titles = a:add_titles
-	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query --uri z:zettels'
+	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query --uri z:zettels 2>/dev/null'
 	if has('nvim')
 		call jobstart(l:cmd, {
 			\ 'on_stdout': function('s:refresh_cache_callback_nvim'),
@@ -632,7 +632,7 @@ endfunc
 " Add tags from a selection list
 func! neuron#tags_add_select()
 	" TODO: use cache
-	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query -u z:tags'
+	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query -u z:tags 2>/dev/null'
 	let l:data = system(l:cmd)
 	let l:tags = json_decode(l:data)["result"]
 	if empty(l:tags)
@@ -659,7 +659,7 @@ func! neuron#tags_search()
 	let l:tag = input('Search by tag: ')
 
 	"TODO: use cache
-	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query -t '.l:tag
+	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query -t '.l:tag.' 2>/dev/null'
 	let l:data = system(l:cmd)
 	let l:zettels = json_decode(data)["result"]
 	if empty(l:zettels)
